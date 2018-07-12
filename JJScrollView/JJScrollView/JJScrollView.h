@@ -11,9 +11,14 @@
 @class CBannerModel;
 @interface JJScrollView : UIView
 
+//pageControl圆圈颜色
 @property (nonatomic,strong) UIColor *pageIndicator;
 
 @property (nonatomic,strong) UIColor *currentPageIndicator;
+
+//自定义pageCotrol
+@property (nonatomic,strong) NSString *pageIndicatorImg;
+@property (nonatomic,strong) NSString *currentPageIndicatorImg;
 
 @property (nonatomic,strong) NSArray *imgArray;
 #pragma mark - 只有图片滚动

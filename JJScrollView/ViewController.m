@@ -22,19 +22,33 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    CBannerModel *banner = [[CBannerModel alloc] init];
-    banner.imageUrl = @"960";
-//
-    
-        JJScrollView *scroll = [[JJScrollView alloc] initWithFrame:CGRectMake(0, 100, ScreenWidth, 200) imgArray:nil isAuto:YES];
+  
+    JJScrollView *scroll = [[JJScrollView alloc] initWithFrame:CGRectMake(0, 100, ScreenWidth, 200) imgArray:nil isAuto:YES];
         [self.view addSubview:scroll];
     
-    scroll.imgArray = @[banner,banner,banner];
-    scroll.pageIndicator = [UIColor redColor];
-    scroll.currentPageIndicator = [UIColor blackColor];
+    scroll.imgArray = @[@"http://m.creditcat.cn/images/banner_dkdq.png",@"http://m.creditcat.cn/images/banner_dkdq.png"];
+    scroll.pageIndicatorImg = @"Carousel";
+    scroll.currentPageIndicatorImg = @"Carousel_on";
     [scroll setSelectedImgBlock:^(CBannerModel *model) {
         NSLog(@"我被点击了！");
     }];
+    
+    
+    CBannerModel *banner = [[CBannerModel alloc] init];
+    banner.imageUrl = @"960";
+    
+    JJScrollView *scroll1 = [[JJScrollView alloc] initWithFrame:CGRectMake(0, 400, ScreenWidth, 200) imgArray:nil isAuto:YES];
+    [self.view addSubview:scroll1];
+    
+    scroll1.imgArray = @[banner,banner,banner];
+    scroll1.pageIndicator = [UIColor redColor];
+    scroll1.currentPageIndicator = [UIColor blackColor];
+    
+    
+    [scroll1 setSelectedImgBlock:^(CBannerModel *model) {
+        NSLog(@"我被点击了！");
+    }];
+    
 
 }
 

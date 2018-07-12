@@ -55,12 +55,36 @@
         
     }
     
-    _imageView.backgroundColor = [UIColor redColor];
     //    self.label.text = _news.title;
     self.imageView.frame = CGRectMake(0, 0, size.width, size.height);
-    //    self.label.frame = CGRectMake(0, 0, screenWidth, 200);
+    //    self.label.frame = CGRectMake(0,size.height - 30, size.width, 30);
     //    self.label.font = [UIFont systemFontOfSize:30];
     //    self.label.textAlignment = NSTextAlignmentCenter;
+}
+
+- (void)setImg:(NSString *)img size:(CGSize)size isCache:(BOOL)isCache{
+    if ([img hasPrefix:@"http://"] || [img hasPrefix:@"https://"])
+    {
+        //网络图片 请使用ego异步图片库
+        [self.imageView sd_setImageWithURL:[NSURL URLWithString:img]  placeholderImage:[UIImage imageNamed:@"img_tc_zw"]];
+        
+    }
+    else
+    {
+        if (isCache) {
+            UIImage *image = [[SDImageCache sharedImageCache] imageFromDiskCacheForKey:img];
+            [self.imageView setImage:image];
+            
+        }else
+        {
+            self.imageView.image = [UIImage imageNamed:img];
+            
+            
+        }
+        
+    }
+    
+    self.imageView.frame = CGRectMake(0, 0, size.width, size.height);
 }
 
 - (UIImageView *)imageView

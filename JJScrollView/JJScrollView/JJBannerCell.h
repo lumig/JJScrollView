@@ -12,4 +12,6 @@
 
 - (void)setModel:(CBannerModel *)model size:(CGSize)size isCache:(BOOL)isCache;
 
+- (void)setImg:(NSString *)img size:(CGSize)size isCache:(BOOL)isCache;
+
 @end

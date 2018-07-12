@@ -8,7 +8,7 @@
 
 #import "JJScrollView.h"
 #import "JJBannerCell.h"
-
+#import "CBannerModel.h"
 #define ScreenWidth                         [[UIScreen mainScreen] bounds].size.width
 
 #define JJBannerCellID @"JJBannerCell"
@@ -95,6 +95,16 @@
     _pageControl.currentPageIndicatorTintColor = currentPageIndicator;
 }
 
+- (void)setPageIndicatorImg:(NSString *)pageIndicatorImg
+{
+        [_pageControl setValue:[UIImage imageNamed:pageIndicatorImg] forKeyPath:@"pageImage"];
+}
+
+- (void)setCurrentPageIndicatorImg:(NSString *)currentPageIndicatorImg
+{
+    [_pageControl setValue:[UIImage imageNamed:currentPageIndicatorImg] forKeyPath:@"currentPageImage"];
+}
+
 
 #pragma mark - 设置collection
 - (void)settingCollection{
@@ -105,7 +115,7 @@
 
 #pragma mark 添加定时器
 -(void) addTimer{
-    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(nextpage) userInfo:nil repeats:YES];
+    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:4 target:self selector:@selector(nextpage) userInfo:nil repeats:YES];
     [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
     self.timer = timer ;
     
@@ -157,7 +167,14 @@
     if(!cell){
         cell = [[JJBannerCell alloc] init];
     }
-    [cell setModel:self.dataArray[indexPath.item] size:CGSizeMake(_width, _height) isCache:_isCache];
+    id obj = self.dataArray[indexPath.item];
+    if ([obj isKindOfClass:[CBannerModel class]]) {
+        [cell setModel:obj size:CGSizeMake(_width, _height) isCache:_isCache];
+    }
+    if ([obj isKindOfClass:[NSString class]]) {
+        [cell setImg:obj size:CGSizeMake(_width, _height) isCache:_isCache];
+    }
+    
     return cell;
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
