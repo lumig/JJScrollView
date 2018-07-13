@@ -19,8 +19,9 @@
 //自定义pageCotrol
 @property (nonatomic,strong) NSString *pageIndicatorImg;
 @property (nonatomic,strong) NSString *currentPageIndicatorImg;
-
+//设置轮播数组
 @property (nonatomic,strong) NSArray *imgArray;
+
 #pragma mark - 只有图片滚动
 - (instancetype)initWithFrame:(CGRect)frame imgArray:(NSArray *)imgArray isAuto:(BOOL)isAuto ;
 
@@ -28,7 +29,15 @@
 - (instancetype)initWithFrame:(CGRect)frame imgArray:(NSArray *)imgArray titleArray:(NSArray *)titleArray isAuto:(BOOL)isAuto isCache:(BOOL)isCache;
 
 
+/**
+ 点击回调banner对象
+ */
 @property (nonatomic,copy) void (^selectedImgBlock)(CBannerModel *model);
+
+/**
+ 点击回调选中索引
+ */
+@property (nonatomic,copy) void (^selectedImgIndexBlock)(NSInteger index);
 
 
 @end

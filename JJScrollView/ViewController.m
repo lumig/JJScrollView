@@ -23,17 +23,18 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
   
+//   简单传入图片数据，返回点击索引
     JJScrollView *scroll = [[JJScrollView alloc] initWithFrame:CGRectMake(0, 100, ScreenWidth, 200) imgArray:nil isAuto:YES];
         [self.view addSubview:scroll];
     
     scroll.imgArray = @[@"http://m.creditcat.cn/images/banner_dkdq.png",@"http://m.creditcat.cn/images/banner_dkdq.png"];
     scroll.pageIndicatorImg = @"Carousel";
     scroll.currentPageIndicatorImg = @"Carousel_on";
-    [scroll setSelectedImgBlock:^(CBannerModel *model) {
-        NSLog(@"我被点击了！");
+    [scroll setSelectedImgIndexBlock:^(NSInteger index) {
+        NSLog(@"我选中了 %ld",index);
     }];
     
-    
+//    传入model对象数组，返回点击的对象
     CBannerModel *banner = [[CBannerModel alloc] init];
     banner.imageUrl = @"960";
     

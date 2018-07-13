@@ -12,7 +12,7 @@
 #define ScreenWidth                         [[UIScreen mainScreen] bounds].size.width
 
 #define JJBannerCellID @"JJBannerCell"
-#define YYMaxSections 100
+#define JJMaxSections 100
 @interface JJScrollView()<UICollectionViewDataSource,UICollectionViewDelegate>
 @property (strong,nonatomic) UICollectionViewFlowLayout *flowLayout;
 
@@ -108,7 +108,7 @@
 
 #pragma mark - 设置collection
 - (void)settingCollection{
-//        [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:YYMaxSections/2] atScrollPosition:UICollectionViewScrollPositionLeft animated:YES];
+//        [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:JJMaxSections/2] atScrollPosition:UICollectionViewScrollPositionLeft animated:YES];
     _pageControl.numberOfPages = self.dataArray.count;
 
 }
@@ -137,7 +137,7 @@
 -(void) nextpage{
     NSIndexPath *currentIndexPath = [[self.collectionView indexPathsForVisibleItems] lastObject];
     
-    NSIndexPath *currentIndexPathReset = [NSIndexPath indexPathForItem:currentIndexPath.item inSection:YYMaxSections/2];
+    NSIndexPath *currentIndexPathReset = [NSIndexPath indexPathForItem:currentIndexPath.item inSection:JJMaxSections/2];
     [self.collectionView scrollToItemAtIndexPath:currentIndexPathReset atScrollPosition:UICollectionViewScrollPositionLeft animated:NO];
     
     NSInteger nextItem = currentIndexPathReset.item +1;
@@ -152,8 +152,11 @@
 }
 
 #pragma mark- UICollectionViewDataSource
+// 我们这里设置了最大分区个数100
+// 我们可以将第50个分区的一组图片作为用户看到的第一组图片，这样就实现轮播的效果了
+//逻辑上传入数组个数其实已经足够了,这里防止过快导致无法滚动的问题
 -(NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
-    return YYMaxSections;
+    return JJMaxSections;
 }
 
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
@@ -184,9 +187,18 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.selectedImgBlock) {
-        self.selectedImgBlock(self.dataArray[indexPath.item]);
+    id obj = self.dataArray[indexPath.item];
+    if ([obj isKindOfClass:[CBannerModel class]]) {
+        if (self.selectedImgBlock) {
+            self.selectedImgBlock(obj);
+        }
+    }else
+    {
+        if (self.selectedImgIndexBlock) {
+            self.selectedImgIndexBlock(indexPath.item);
+        }
     }
+
 }
 
 -(void) scrollViewWillBeginDragging:(UIScrollView *)scrollView{
@@ -215,7 +227,7 @@
 {
     if (!_flowLayout) {
         _flowLayout = [[UICollectionViewFlowLayout alloc] init];
-        //        _flowLayout.itemSize = CGSizeMake(ScreenWidth, _frame.size.height);
+        //        _flowLayout.itemSize = CGSizeMake(ScreenWidth, _height);
         _flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
         _flowLayout.minimumLineSpacing = 0;
     }
